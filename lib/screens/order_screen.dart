@@ -37,8 +37,8 @@ class _OrdersScreenState extends State<OrdersScreen>
         title: const Text('My Orders', style: TextStyle(fontWeight: FontWeight.bold)),
         bottom: TabBar(
           controller: _tabController,
-          labelColor: const Color(0xFF1A1F36),
-          indicatorColor: const Color(0xFFFFD700),
+          labelColor: const Color(0xFFC9A15A),
+          indicatorColor: const Color(0xFFC9A15A),
           tabs: const [
             Tab(text: 'Pending'),
             Tab(text: 'Delivered'),
@@ -60,6 +60,7 @@ class _OrdersScreenState extends State<OrdersScreen>
       stream: FirebaseFirestore.instance
           .collection('orders')
           .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('status', isEqualTo: status)
           .orderBy('orderDate', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
@@ -70,7 +71,7 @@ class _OrdersScreenState extends State<OrdersScreen>
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(color: Color(0xFFFFD700)),
+            child: CircularProgressIndicator(color: Color(0xFFC9A15A)),
           );
         }
 
@@ -110,7 +111,7 @@ class _OrdersScreenState extends State<OrdersScreen>
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
+                children: [
                   Text(
                     'Order #${docId.substring(0, 6)}',
                     style: const TextStyle(
@@ -130,7 +131,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                   Text(
                     'Total: PKR $total',
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Color(0xFFFFD700)),
+                        fontWeight: FontWeight.bold, color: Color(0xFFC9A15A)),
                   ),
 
 

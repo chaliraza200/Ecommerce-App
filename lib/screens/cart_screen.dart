@@ -88,7 +88,6 @@ class _CartScreenState extends State<CartScreen> {
     return total;
   }
 
-  // ── NEW: shows the success dialog (same one as before) ──
   void _showSuccessDialog(int total) {
     showDialog(
       context: context,
@@ -96,11 +95,11 @@ class _CartScreenState extends State<CartScreen> {
         backgroundColor: const Color(0xFFFFFFFF),
         title: const Text(
           '🎉 Order Placed!',
-          style: TextStyle(color: Color(0xFF1A1F36), fontWeight: FontWeight.bold),
+          style: TextStyle(color: Color(0xFF0D0D0D), fontWeight: FontWeight.bold),
         ),
         content: Text(
           'order placed successfully \nTotal: PKR $total',
-          style: const TextStyle(color: Color(0xFF1A1F36)),
+          style: const TextStyle(color: Color(0xFF0D0D0D)),
         ),
         actions: [
           TextButton(
@@ -115,11 +114,10 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  // ── NEW: checkout dialog asking for phone, address, payment method ──
   void _showCheckoutDialog(List<QueryDocumentSnapshot> cartDocs) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // keyboard ke upar sheet ko uthne deta hai
+      isScrollControlled: true,
       backgroundColor: const Color(0xFFFFFFFF),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -129,7 +127,7 @@ class _CartScreenState extends State<CartScreen> {
           left: 20,
           right: 20,
           top: 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20, // keyboard se bachne ke liye
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -150,7 +148,7 @@ class _CartScreenState extends State<CartScreen> {
               const Text(
                 'Checkout Details',
                 style: TextStyle(
-                  color: Color(0xFF1A1F36),
+                  color: Color(0xFF0D0D0D),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -180,16 +178,16 @@ class _CartScreenState extends State<CartScreen> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFD700).withOpacity(0.15),
+                  color: const Color(0xFFC9A15A).withOpacity(0.15),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.payments_outlined, color: Color(0xFF1A1F36)),
+                    Icon(Icons.payments_outlined, color: Color(0xFF0D0D0D)),
                     SizedBox(width: 10),
                     Text(
                       "Cash on Delivery",
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A1F36)),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0D0D0D)),
                     ),
                   ],
                 ),
@@ -207,7 +205,7 @@ class _CartScreenState extends State<CartScreen> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFD700),
+                        backgroundColor: const Color(0xFFC9A15A),
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       onPressed: () async {
@@ -220,7 +218,7 @@ class _CartScreenState extends State<CartScreen> {
                         }
 
                         final total = getTotal(cartDocs) + deliveryCharge;
-                        Navigator.pop(context); // close bottom sheet
+                        Navigator.pop(context);
                         await placeOrder(cartDocs);
                         if (!mounted) return;
                         _showSuccessDialog(total);
@@ -248,7 +246,7 @@ class _CartScreenState extends State<CartScreen> {
         title: const Text(
           '🛒 My Cart',
           style: TextStyle(
-            color: Color(0xFF1A1F36),
+            color: Color(0xFF0D0D0D),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -270,7 +268,7 @@ class _CartScreenState extends State<CartScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(color: Color(0xFFFFD700)),
+              child: CircularProgressIndicator(color: Color(0xFFC9A15A)),
             );
           }
           final cartDocs = snapshot.data!.docs;
@@ -280,7 +278,7 @@ class _CartScreenState extends State<CartScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.shopping_cart_outlined,
-                      size: 80, color: Color(0xFFFFD700)),
+                      size: 80, color: Color(0xFFC9A15A)),
                   SizedBox(height: 16),
                   Text(
                     'Cart is Empty',
@@ -335,9 +333,21 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
+                              child: Image.network(
                                 item['image'],
                                 fit: BoxFit.cover,
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+                                  return const Center(
+                                    child: SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFFC9A15A)),
+                                    ),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.broken_image, color: Color(0xFF0D0D0D)),
                               ),
                             ),
                           ),
@@ -358,7 +368,7 @@ class _CartScreenState extends State<CartScreen> {
                                 Text(
                                   'PKR ${item['price']}',
                                   style: const TextStyle(
-                                    color: Color(0xFFFFD700),
+                                    color: Color(0xFFC9A15A),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -379,7 +389,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   child: const Icon(
                                     Icons.remove,
-                                    color: Color(0xFF1A1F36),
+                                    color: Color(0xFF0D0D0D),
                                     size: 18,
                                   ),
                                 ),
@@ -407,7 +417,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                   child: const Icon(
                                     Icons.add,
-                                    color: Color(0xFF1A1F36),
+                                    color: Color(0xFF0D0D0D),
                                     size: 18,
                                   ),
                                 ),
@@ -459,7 +469,7 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(color: Color(0xFF212529))),
                         Text(
                           'PKR ${getTotal(cartDocs)}',
-                          style: const TextStyle(color: Color(0xFFFFD700)),
+                          style: const TextStyle(color: Color(0xFFC9A15A)),
                         ),
                       ],
                     ),
@@ -471,12 +481,12 @@ class _CartScreenState extends State<CartScreen> {
                             style: TextStyle(color: Color(0xFF212529))),
                         Text(
                           'PKR $deliveryCharge',
-                          style: const TextStyle(color: Color(0xFFFFD700)),
+                          style: const TextStyle(color: Color(0xFFC9A15A)),
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
-                    const Divider(color: Color(0xFFFFD700), thickness: 1.5),
+                    const Divider(color: Color(0xFFC9A15A), thickness: 1.5),
                     const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -492,7 +502,7 @@ class _CartScreenState extends State<CartScreen> {
                         Text(
                           'PKR ${getTotal(cartDocs) + deliveryCharge}',
                           style: const TextStyle(
-                            color: Color(0xFFFFD700),
+                            color: Color(0xFFC9A15A),
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -504,13 +514,12 @@ class _CartScreenState extends State<CartScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFFFD700),
+                          backgroundColor: const Color(0xFFC9A15A),
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
                           ),
                         ),
-                        // ── UPDATED: now opens the checkout dialog first ──
                         onPressed: () {
                           _showCheckoutDialog(cartDocs);
                           _showSuccessDialog;
