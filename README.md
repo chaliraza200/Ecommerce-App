@@ -59,14 +59,14 @@ Add your actual application screenshots below:
 
 | Screen | Screenshot |
 |---|---|
-| Login Screen | screenshots/login.png |
-| Signup Screen | screenshots/signup.png |
-| Home Screen | screenshots/homescreen.png |
-| Product Details | screenshots/productdetails.png |
-| Shopping Cart | screenshots/cart.png |
-| Orders Section | screenshots/order.png |
-| User Profile | screenshots/profile.png |
-| Admin Panel | screenshots/adminpanel.png |
+[!Login Screen] (screenshots/login.png)
+[!Signup Screen] (screenshots/signup.png)
+[!Home Screen]  (screenshots/homescreen.png)
+[!Product Details] (screenshots/productdetails.png)
+[!Shopping Cart] (screenshots/cart.png)
+[!Orders Section] (screenshots/order.png)
+[!User Profile] (screenshots/profile.png)
+[!Admin Panel] (screenshots/adminpanel.png)
 
 🚀 Getting Started
 
